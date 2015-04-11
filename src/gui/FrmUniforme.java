@@ -242,6 +242,7 @@ public class FrmUniforme extends javax.swing.JFrame {
                  inicioIntervalo = round(finalIntervalo,2);
                  finalIntervalo = (round(inicioIntervalo,2) +  amplitud);
             }
+            System.out.println(""+numDist[i]);
            
             
         }
