@@ -18,9 +18,9 @@ public class FrmUniforme extends javax.swing.JFrame {
          modelo.addColumn("Intervalos");
         modelo.addColumn("Desde");
         modelo.addColumn("Hasta");
-        modelo.addColumn("fo");
-        modelo.addColumn("fe");
-        modelo.addColumn("((fe-fo)^2)/2");
+        modelo.addColumn("FO");
+        modelo.addColumn("FE");
+        modelo.addColumn("((FO-FE)^2)/FE");
         du = new DistribucionUniforme();
     }
     
@@ -108,11 +108,11 @@ public class FrmUniforme extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addComponent(jtfingreseB, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(62, 62, 62)
                         .addComponent(jbtgeneraNum)
                         .addGap(33, 33, 33)
-                        .addComponent(btngenerarGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btngenerarGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -150,21 +150,21 @@ public class FrmUniforme extends javax.swing.JFrame {
 
         jtable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Cantidad Numeros", "Numeros"
+                "Intervalos", "Desde", "Hasta", "FO", "FE", "((FO-FE)^2)/FE"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -201,6 +201,7 @@ public class FrmUniforme extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtgeneraNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtgeneraNumActionPerformed
+        clearTable();
         int numA = Integer.parseInt(this.jtfingreseA.getText());
         int numB = Integer.parseInt(this.jtfingreseB.getText());
         int cant = Integer.parseInt(this.jtfcantNum.getText());
@@ -212,12 +213,14 @@ public class FrmUniforme extends javax.swing.JFrame {
         numDist = new double[cant];
         numDist = du.generarDistribucion();
         
+        int cantNumeros = Integer.parseInt(this.jtfcantNum.getText());
+        
         int intervalos = Integer.parseInt(this.jtfIntervalos.getText());
         Object[]fila = new Object[6];
-        double amplitud = (double)(1.0/intervalos);
-        double amplitudNueva = round(amplitud, 2);
+        double amplitud = (double)(cantNumeros/intervalos);
+//        double amplitudNueva = round(amplitud, 2);
         double inicioIntervalo = 0;
-        double finalIntervalo = (round(inicioIntervalo, 2) + amplitudNueva);
+        double finalIntervalo = (round(inicioIntervalo, 2) + amplitud);
         float esperada;
         float numerador;
         double acum = 0;
@@ -226,14 +229,24 @@ public class FrmUniforme extends javax.swing.JFrame {
         
         for (int i = 0; i < numDist.length; i++) 
         {
-            if(numDist[i]<= inicioIntervalo && numDist[i]< finalIntervalo)
+            for (int j = 0; j < vec.length; j++) 
             {
-                vec[i]++;
+                 if (numDist[i] >= inicioIntervalo && numDist[i] < finalIntervalo) 
+                 {
+                    vec[j]++; 
+                    inicioIntervalo = 0;
+                    finalIntervalo = (round(inicioIntervalo, 2) + amplitud);
+                    j=0;
+                    break;
+                 }               
+                 inicioIntervalo = round(finalIntervalo,2);
+                 finalIntervalo = (round(inicioIntervalo,2) +  amplitud);
             }
-            inicioIntervalo = round(finalIntervalo,2);
-            finalIntervalo = (round(inicioIntervalo,2) +  amplitudNueva);
+           
+            
         }
-        
+        inicioIntervalo = 0;
+        finalIntervalo = (round(inicioIntervalo, 2) + amplitud);
        
         
         for (int i = 0; i < vec.length; i++) {
@@ -244,7 +257,7 @@ public class FrmUniforme extends javax.swing.JFrame {
                     fila[2] = round(finalIntervalo,2);
          
                     inicioIntervalo = round(finalIntervalo,2);
-                    finalIntervalo = (round(inicioIntervalo,2) +  amplitudNueva);
+                    finalIntervalo = (round(inicioIntervalo,2) +  amplitud);
                     
                     Object value = (Object) vec[i];
                     fila[0] = i+1;
@@ -282,12 +295,11 @@ public class FrmUniforme extends javax.swing.JFrame {
         });
     }
     
-    public void cargarTabla()
+     private void clearTable()
     {
-        for (int i = 0; i < numDist.length; i++) 
-        {
-            
-            
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            modelo.removeRow(i);
+            i--;
         }
     }
 
