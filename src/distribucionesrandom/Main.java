@@ -16,6 +16,11 @@ public class Main {
      */
     public static void main(String[] args) {
         
+        DistribucionNormal dN = new DistribucionNormal(10.0, 5.0);
+        
+        dN.generarRND(500);
+        
+        System.out.println(dN.toString());
         
         ExponentialDistribution ed = new ExponentialDistribution(1,10);
         ed.generateValuesExponential();
