@@ -21,6 +21,12 @@ public class PoissonDistribucion {
         this.lambda = lambda;
     }
     
+    public PoissonDistribucion()
+    {
+        this.cantNums = 500;
+        this.lambda = 33.2;
+    }
+    
     
     public int[] generarDist()
     {
