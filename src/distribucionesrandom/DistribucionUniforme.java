@@ -9,16 +9,16 @@ public class DistribucionUniforme
     private double v[];
     private int cantNum;
 
-    public DistribucionUniforme(int a, int b, double[] v, int cantNum) {
+    public DistribucionUniforme(int a, int b, int cantNum) {
         this.a = a;
         this.b = b;
-        this.v = new double[cantNum];
         this.cantNum = cantNum;
     }
 
     public double[] generarDistribucion()
     {
         double num = 0;
+        v = new double[cantNum];
         for (int i = 0; i < v.length; i++) 
         {
             num = (((b - a) * Math.random()) + a);
