@@ -22,6 +22,22 @@ public class Main {
         
         System.out.println(dN.toString());
         
+        ExponentialDistribution ed = new ExponentialDistribution(1,10);
+        ed.generateValuesExponential();
+        System.out.println(ed.toString());
+        
+        DistribucionUniforme dU = new DistribucionUniforme(5, 12, 500);
+        double[] generarDistribucion = dU.generarDistribucion();
+        PoissonDistribucion pD = new PoissonDistribucion(500, 5.3);
+        int[] distribucion = pD.generarDist();
+        int[] frecuencias = new int[20];
+        for (int i = 0; i < distribucion.length; i++) {
+            int e = distribucion[i];
+            frecuencias[e]++;
+            //System.out.println(e);
+        
     }
+    
+}
     
 }
