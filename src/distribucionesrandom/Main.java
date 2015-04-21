@@ -5,6 +5,7 @@
  */
 package distribucionesrandom;
 
+
 /**
  *
  * @author Nico
@@ -16,10 +17,13 @@ public class Main {
      */
     public static void main(String[] args) {
         
+  
+               
         
-        ExponentialDistribution ed = new ExponentialDistribution(1,10);
-        ed.generateValuesExponential();
-        System.out.println(ed.toString());
+       
+               ExponentialDistribution ed = new ExponentialDistribution(50,5);
+               ed.generateValuesExponential();
+               System.out.println(ed.toString());
         
         
     }

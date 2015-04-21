@@ -5,6 +5,8 @@
  */
 package distribucionesrandom;
 
+import java.text.DecimalFormat;
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -26,6 +28,18 @@ public class ExponentialDistribution {
     
     public int getCantValores() {
         return cantValores;
+    }
+
+    public double[] getValues() {
+        return values;
+    }
+
+    public void setMedia(double media) {
+        this.media = media;
+    }
+
+    public void setValues(double[] values) {
+        this.values = values;
     }
 
     public double getMedia() {
@@ -51,7 +65,6 @@ public class ExponentialDistribution {
         for (int i = 0; i < values.length; i++) {
             
             randx = rand.nextDouble();
-            System.out.println("random:" + randx);
             aux = ((-Math.log(1-randx)) / generateLamnda());
             values[i] = aux;
         }    
@@ -65,9 +78,10 @@ public class ExponentialDistribution {
     public String toString()
     {
         StringBuilder SB = new StringBuilder();
+        DecimalFormat df = new DecimalFormat("#.##");
         
         for (int i=0; i<values.length; i++) {           
-            SB.append(values[i]);
+            SB.append(df.format(values[i]));
             SB.append("\n");
         }
         
