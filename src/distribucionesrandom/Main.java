@@ -15,9 +15,11 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-
         
+        
+        ExponentialDistribution ed = new ExponentialDistribution(1,10);
+        ed.generateValuesExponential();
+        System.out.println(ed.toString());
         
         DistribucionUniforme dU = new DistribucionUniforme(5, 12, 500);
         double[] generarDistribucion = dU.generarDistribucion();
@@ -28,24 +30,9 @@ public class Main {
             int e = distribucion[i];
             frecuencias[e]++;
             //System.out.println(e);
-            
-        }
         
-        System.out.println("LOS NUMEROS:");
-        for (int i = 0; i < frecuencias.length; i++) {
-            System.out.println(i);
-            
-        }
-        
-        System.out.println("SUS FRECUENCIAS");
-        for (int i = 0; i < frecuencias.length; i++) {
-            System.out.println(frecuencias[i]);
-            
-        }
-        
-        
-        
-      
     }
+    
+}
     
 }
