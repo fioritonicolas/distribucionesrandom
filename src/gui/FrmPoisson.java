@@ -5,6 +5,12 @@
  */
 package gui;
 
+import distribucionesrandom.PoissonDistribucion;
+import java.util.Vector;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 /**
  *
  * @author Nico
@@ -16,7 +22,14 @@ public class FrmPoisson extends javax.swing.JFrame {
      */
     public FrmPoisson() {
         initComponents();
+        pDist = new PoissonDistribucion();
+        isGenarado = false;
+        checkState();
     }
+    
+    private PoissonDistribucion pDist;
+    private int[] poissonNums;
+    private boolean isGenarado;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,13 +40,32 @@ public class FrmPoisson extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtCantNums = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtLam = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtIntervalos = new javax.swing.JTextField();
+        btnMostrarNumeros = new javax.swing.JButton();
+        btnMostrarGrafico = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblNumeros = new javax.swing.JTable();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -46,54 +78,107 @@ public class FrmPoisson extends javax.swing.JFrame {
 
         jLabel4.setText("Cantidad de Intervalos");
 
+        btnMostrarNumeros.setText("Mostrar Numeros");
+        btnMostrarNumeros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarNumerosActionPerformed(evt);
+            }
+        });
+
+        btnMostrarGrafico.setText("Mostrar Grafico");
+
+        tblNumeros.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Numero", "Ocurrencias"
+            }
+        ));
+        jScrollPane2.setViewportView(tblNumeros);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
-                    .addComponent(jTextField2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addGap(38, 38, 38)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtCantNums, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                                    .addComponent(txtLam)
+                                    .addComponent(txtIntervalos)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(72, 72, 72)
+                                .addComponent(btnMostrarNumeros)
+                                .addGap(57, 57, 57)
+                                .addComponent(btnMostrarGrafico))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(133, 133, 133)
+                                .addComponent(jLabel1)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addGap(27, 27, 27)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtCantNums, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtLam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addContainerGap(178, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtIntervalos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnMostrarNumeros)
+                    .addComponent(btnMostrarGrafico))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnMostrarNumerosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarNumerosActionPerformed
+        // TODO add your handling code here:
+        int cantNums = Integer.parseInt(txtCantNums.getText());
+        double lambda = Double.parseDouble(txtLam.getText());
+        int intervalos = Integer.parseInt(txtIntervalos.getText());
+        
+        pDist.setCantNums(cantNums);
+        pDist.setLambda(lambda);
+        poissonNums = pDist.generarDist();
+        cargarTabla();
+        
+        
+        
+        
+        isGenarado = true;
+        checkState();
+    }//GEN-LAST:event_btnMostrarNumerosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -131,12 +216,81 @@ public class FrmPoisson extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnMostrarGrafico;
+    private javax.swing.JButton btnMostrarNumeros;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblNumeros;
+    private javax.swing.JTextField txtCantNums;
+    private javax.swing.JTextField txtIntervalos;
+    private javax.swing.JTextField txtLam;
     // End of variables declaration//GEN-END:variables
+
+    
+    
+    public void checkState()
+    {
+            btnMostrarGrafico.setEnabled(isGenarado);
+    }
+    
+    public void cargarTabla()
+    {
+       
+        
+        int max = 0;
+        //ENCUENTRO EL MAYOR PARA SABER LA LONGITUD DEL VECTOR DE OCURRENCIAS
+        for (int i = 0; i < poissonNums.length; i++) {
+           if(i==0)
+           {
+               max = poissonNums[i];
+           }
+           
+           if(poissonNums[i] > max)
+           {
+               max = poissonNums[i];
+           }
+           
+            System.out.println("LOS NUMEROS DE POISSON: "+poissonNums[i]);
+            
+        }
+        
+        System.out.println("EL MAXIMO ES: "+max);
+        
+        //CUENTO LAS OCURRENCIAS
+        int [] ocurrencias = new int[max+1];
+        for (int i = 0; i < poissonNums.length; i++) {
+            ocurrencias[poissonNums[i]]++;
+            System.out.println("EL NUM: "+poissonNums[i]+ " ESTA "+ocurrencias[poissonNums[i]]);
+        }
+        
+        //ARMO EL MODEL PARA LA TABLA
+        Vector<String> numero = new Vector<String>();
+        Vector<String> ocurrenciasVec = new Vector<String>();
+        for (int i = 0; i < ocurrencias.length; i++) {
+            numero.add(i+"");
+            ocurrenciasVec.add(ocurrencias[i]+"");
+            System.out.println("**OCURRENCIAS***");
+        }
+        
+    Vector<Vector<String>> dataVector = new Vector<Vector<String>>();
+    dataVector.add(numero);
+    dataVector.add(ocurrenciasVec);
+
+    Vector<String> header = new Vector<String>(2);
+    header.add("Numero");
+    header.add("Ocurrencias");
+
+
+    TableModel model = new DefaultTableModel(dataVector,header);
+    tblNumeros.setModel(model);
+        
+    }
+    
+
+    
 }
