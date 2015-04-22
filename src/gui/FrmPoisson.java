@@ -5,7 +5,10 @@
  */
 package gui;
 
+import adapter.DataPoisson;
+import adapter.PoissonAdapter;
 import distribucionesrandom.PoissonDistribucion;
+import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -255,39 +258,29 @@ public class FrmPoisson extends javax.swing.JFrame {
                max = poissonNums[i];
            }
            
-            System.out.println("LOS NUMEROS DE POISSON: "+poissonNums[i]);
             
         }
         
-        System.out.println("EL MAXIMO ES: "+max);
         
         //CUENTO LAS OCURRENCIAS
         int [] ocurrencias = new int[max+1];
         for (int i = 0; i < poissonNums.length; i++) {
             ocurrencias[poissonNums[i]]++;
-            System.out.println("EL NUM: "+poissonNums[i]+ " ESTA "+ocurrencias[poissonNums[i]]);
         }
         
         //ARMO EL MODEL PARA LA TABLA
-        Vector<String> numero = new Vector<String>();
-        Vector<String> ocurrenciasVec = new Vector<String>();
+        ArrayList<DataPoisson> list = new ArrayList<>(ocurrencias.length);
+        DataPoisson fila;
         for (int i = 0; i < ocurrencias.length; i++) {
-            numero.add(i+"");
-            ocurrenciasVec.add(ocurrencias[i]+"");
-            System.out.println("**OCURRENCIAS***");
+            fila = new DataPoisson(i, ocurrencias[i]);
+            list.add(fila);
         }
         
-    Vector<Vector<String>> dataVector = new Vector<Vector<String>>();
-    dataVector.add(numero);
-    dataVector.add(ocurrenciasVec);
-
-    Vector<String> header = new Vector<String>(2);
-    header.add("Numero");
-    header.add("Ocurrencias");
-
-
-    TableModel model = new DefaultTableModel(dataVector,header);
-    tblNumeros.setModel(model);
+        PoissonAdapter pA = new PoissonAdapter(list);
+        
+        tblNumeros.setModel(pA);
+        
+ 
         
     }
     
