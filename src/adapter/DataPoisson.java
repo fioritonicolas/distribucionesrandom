@@ -13,8 +13,10 @@ public class DataPoisson {
     
     private int numero;
     private int ocurrencias;
+    private String label;
 
     public DataPoisson() {
+        ocurrencias = 0;
     }
 
     public DataPoisson(int numero, int ocurrencias) {
@@ -36,6 +38,14 @@ public class DataPoisson {
 
     public void setOcurrencias(int ocurrencias) {
         this.ocurrencias = ocurrencias;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
     
     

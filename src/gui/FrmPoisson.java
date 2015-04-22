@@ -89,6 +89,11 @@ public class FrmPoisson extends javax.swing.JFrame {
         });
 
         btnMostrarGrafico.setText("Mostrar Grafico");
+        btnMostrarGrafico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarGraficoActionPerformed(evt);
+            }
+        });
 
         tblNumeros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -171,17 +176,29 @@ public class FrmPoisson extends javax.swing.JFrame {
         double lambda = Double.parseDouble(txtLam.getText());
         int intervalos = Integer.parseInt(txtIntervalos.getText());
         
+        
         pDist.setCantNums(cantNums);
         pDist.setLambda(lambda);
+        pDist.setIntervalos(intervalos);
         poissonNums = pDist.generarDist();
         cargarTabla();
         
         
+        ArrayList<DataPoisson> distInt = pDist.getDristAgrupadaEnIntevalos();
         
+        for (DataPoisson dI : distInt) {
+            System.out.println("INTERVALO: "+dI.getLabel());
+            System.out.println("OCURRENCIAS: "+dI.getOcurrencias());
+        }
         
         isGenarado = true;
         checkState();
     }//GEN-LAST:event_btnMostrarNumerosActionPerformed
+
+    private void btnMostrarGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarGraficoActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnMostrarGraficoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -260,8 +277,6 @@ public class FrmPoisson extends javax.swing.JFrame {
            
             
         }
-        
-        
         //CUENTO LAS OCURRENCIAS
         int [] ocurrencias = new int[max+1];
         for (int i = 0; i < poissonNums.length; i++) {
@@ -277,11 +292,7 @@ public class FrmPoisson extends javax.swing.JFrame {
         }
         
         PoissonAdapter pA = new PoissonAdapter(list);
-        
         tblNumeros.setModel(pA);
-        
- 
-        
     }
     
 
