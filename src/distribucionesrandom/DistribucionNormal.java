@@ -62,5 +62,56 @@ public class DistribucionNormal {
         return sB.toString();
     }
     
+    public int[] intervalos(int cant)
+    {
+        int [] intfrec = new int[cant];
+        double [] aux = vecrnd;
+        ordenar(aux);
+        double maxFrec = aux[aux.length-1];
+        double intervalo1;
+        int intervalo;
+                
+        for (int i = 0; i < aux.length; i++) 
+        {
+            if(aux[i] != maxFrec)
+            {
+                intervalo1 = (double) ((aux[i]/(maxFrec/cant)));
+                intervalo = (int) Math.floor(intervalo1);
+                
+                intfrec[intervalo] += 1;
+            }
+            else
+                intfrec[cant-1] += 1;
+        }        
+        
+        return intfrec;
+    }
     
+    public void ordenar(double [] v)
+        {
+              ordenar( 0, v.length - 1,v );
+        }
+        
+        private void ordenar (int izq, int der, double [] v)
+        {
+              int i = izq, j = der; 
+              double y;
+              double x = v[(izq + der) / 2];
+              do 
+              {
+                    while( v[i] < x && i < der ) { i++; }
+                    while( x < v[j] && j > izq ) { j--; }
+                    if( i <= j )
+                    {
+                          y = v[i];
+                          v[i] = v[j];
+                          v[j] = y;
+                          i++;
+                          j--;
+                    }
+              }
+              while( i <= j );
+              if( izq < j ) ordenar( izq, j, v );
+              if( i < der ) ordenar( i, der, v );
+        } 
 }
