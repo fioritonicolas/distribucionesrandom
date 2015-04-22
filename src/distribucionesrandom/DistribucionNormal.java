@@ -22,6 +22,10 @@ public class DistribucionNormal {
         media = med;
         varianza = var;
     }
+
+    public double[] getVecrnd() {
+        return vecrnd;
+    }
     
     public void generarRND(int cant)
     {
