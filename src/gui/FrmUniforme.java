@@ -2,6 +2,7 @@
 package gui;
 
 import distribucionesrandom.DistribucionUniforme;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -11,11 +12,27 @@ public class FrmUniforme extends javax.swing.JFrame {
 
     private DistribucionUniforme du;
     private double []numDist;
-    
+    private DefaultTableModel modelo = new DefaultTableModel();
     public FrmUniforme() {
         initComponents();
+         modelo.addColumn("Intervalos");
+        modelo.addColumn("Desde");
+        modelo.addColumn("Hasta");
+        modelo.addColumn("fo");
+        modelo.addColumn("fe");
+        modelo.addColumn("((fe-fo)^2)/2");
         du = new DistribucionUniforme();
     }
+    
+    public static double round(double value, int places) {
+    if (places < 0) throw new IllegalArgumentException();
+
+    long factor = (long) Math.pow(10, places);
+    value = value * factor;
+    long tmp = Math.round(value);
+    return (double) tmp / factor;
+}
+
 
     
     @SuppressWarnings("unchecked")
@@ -34,6 +51,8 @@ public class FrmUniforme extends javax.swing.JFrame {
         jtfcantNum = new javax.swing.JTextField();
         jbtgeneraNum = new javax.swing.JButton();
         btngenerarGrafico = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jtfIntervalos = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtable = new javax.swing.JTable();
 
@@ -72,6 +91,8 @@ public class FrmUniforme extends javax.swing.JFrame {
 
         btngenerarGrafico.setText("Generar Grafico");
 
+        jLabel4.setText("Ingrese Cantidad de Intervalos");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -88,15 +109,19 @@ public class FrmUniforme extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jtfingreseB, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(jLabel3)
-                        .addGap(52, 52, 52)
-                        .addComponent(jtfcantNum, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(62, 62, 62)
                         .addComponent(jbtgeneraNum)
                         .addGap(33, 33, 33)
-                        .addComponent(btngenerarGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btngenerarGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3))
+                        .addGap(52, 52, 52)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jtfcantNum, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                            .addComponent(jtfIntervalos))))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -112,7 +137,11 @@ public class FrmUniforme extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jtfcantNum, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jtfIntervalos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtgeneraNum)
                     .addComponent(btngenerarGrafico))
@@ -164,8 +193,8 @@ public class FrmUniforme extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -182,6 +211,66 @@ public class FrmUniforme extends javax.swing.JFrame {
         
         numDist = new double[cant];
         numDist = du.generarDistribucion();
+        
+        int intervalos = Integer.parseInt(this.jtfIntervalos.getText());
+        Object[]fila = new Object[6];
+        double amplitud = (double)(1.0/intervalos);
+        double amplitudNueva = round(amplitud, 2);
+        double inicioIntervalo = 0;
+        double finalIntervalo = (round(inicioIntervalo, 2) + amplitudNueva);
+        float esperada;
+        float numerador;
+        double acum = 0;
+        
+         int[] vec = new int[intervalos];
+        
+        for (int i = 0; i < numDist.length; i++) 
+        {
+            if(numDist[i]<= inicioIntervalo && numDist[i]< finalIntervalo)
+            {
+                vec[i]++;
+            }
+            inicioIntervalo = round(finalIntervalo,2);
+            finalIntervalo = (round(inicioIntervalo,2) +  amplitudNueva);
+        }
+        
+       
+        
+        for (int i = 0; i < vec.length; i++) {
+                    
+                    
+                   
+                    fila[1] = round(inicioIntervalo,2);
+                    fila[2] = round(finalIntervalo,2);
+         
+                    inicioIntervalo = round(finalIntervalo,2);
+                    finalIntervalo = (round(inicioIntervalo,2) +  amplitudNueva);
+                    
+                    Object value = (Object) vec[i];
+                    fila[0] = i+1;
+                    fila[3] = value;
+                    esperada = cant/intervalos;
+                    fila[4] = esperada;
+                    numerador = (esperada-vec[i]);
+                    fila[5] = (Math.pow(numerador,2))/2;
+                    acum = acum + (Math.pow(numerador,2))/2;
+                    modelo.addRow(fila);
+                    
+                    
+                }
+            Object[]totales = new Object[6];
+            totales[0] = "TOTALES";
+            totales[5] = acum;
+            modelo.addRow(totales);
+            this.jtable.setModel(modelo);
+//            jTextCantInt.setText("");
+//            jTextCantNums.setText("");
+//            jTextCteAdt.setText("");
+//            jTextField2.setText("");
+//            jTextMod.setText("");
+//            jTextMulti.setText("");
+//            jTextSemilla.setText("");
+        
     }//GEN-LAST:event_jbtgeneraNumActionPerformed
 
     
@@ -207,6 +296,7 @@ public class FrmUniforme extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -214,6 +304,7 @@ public class FrmUniforme extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jbtgeneraNum;
     private javax.swing.JTable jtable;
+    private javax.swing.JTextField jtfIntervalos;
     private javax.swing.JTextField jtfcantNum;
     private javax.swing.JTextField jtfingreseA;
     private javax.swing.JTextField jtfingreseB;
