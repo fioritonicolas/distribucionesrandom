@@ -1,1 +1,15 @@
-build/*                                                                                                                                                                                                                
+*.class
+
+# Package Files #
+*.jar
+           
+
+#ant specific
+dist/
+build/
+ 
+#netbeans specific
+core
+nbproject/*
+!nbproject/project.properties
+!nbproject/project.xml                                                                                                                                                                                                 
