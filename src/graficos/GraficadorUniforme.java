@@ -38,6 +38,8 @@ public class GraficadorUniforme {
     private int cantNums;
     private int intervalos;
     private int[] frecuencias;
+    private double menor;
+    private double mayor;
 
     public GraficadorUniforme() {
 
@@ -57,6 +59,12 @@ public class GraficadorUniforme {
     public void setGrafica(JFreeChart Grafica) {
         this.grafica = Grafica;
     }
+    
+    public void setMayorMenor(double menor, double mayor)
+    {
+        this.menor = menor;
+        this.mayor = mayor;
+    }
 
     public ChartPanel getPanel() {
         return panel;
@@ -73,6 +81,7 @@ public class GraficadorUniforme {
         // cant numeros = 2000
         // amplitud = 100
         double amplitud = (cantNums / intervalos);
+//         double amplitud = (double) (mayor) - (menor) / intervalos;
 
 //        double amplitudRounded = round(amplitud, 2);
 

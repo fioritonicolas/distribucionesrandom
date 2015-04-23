@@ -12,6 +12,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FrmUniforme extends javax.swing.JFrame {
     
+    private double mayor;
+    private double menor;
     private GraficadorUniforme g;
     private DistribucionUniforme du;
     private double []numDist;
@@ -36,6 +38,33 @@ public class FrmUniforme extends javax.swing.JFrame {
     long tmp = Math.round(value);
     return (double) tmp / factor;
 }
+    public double mayorNumero() {
+//        double mayor;
+        int pos;
+        mayor=numDist[0];
+        pos=0;
+        for(int f=1;f<numDist.length;f++) {
+            if (numDist[f]>mayor) {
+                mayor=numDist[f];
+                pos=f;
+            }
+        }
+        return mayor;
+    }
+    
+    public double menorNumero() {
+//        double menor;
+        int pos;
+        menor=numDist[0];
+        pos=0;
+        for(int f=1;f<numDist.length;f++) {
+            if (numDist[f]<menor) {
+                menor=numDist[f];
+                pos=f;
+            }
+        }
+        return menor;
+    }
 
 
     
@@ -226,6 +255,8 @@ public class FrmUniforme extends javax.swing.JFrame {
         
         int intervalos = Integer.parseInt(this.jtfIntervalos.getText());
         Object[]fila = new Object[6];
+        
+        
         double amplitud = (double)(cantNumeros/intervalos);
 //        double amplitudNueva = round(amplitud, 2);
         double inicioIntervalo = 0;
