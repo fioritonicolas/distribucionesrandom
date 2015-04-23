@@ -16,7 +16,7 @@ public class Main {
      */
     public static void main(String[] args) {
         
-        DistribucionNormal dN = new DistribucionNormal(0.0, 4.0);
+        DistribucionNormal dN = new DistribucionNormal(10.0, 9.0);
         
         dN.generarRND(500);
         

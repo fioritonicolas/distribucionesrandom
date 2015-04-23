@@ -17,6 +17,9 @@ public class DistribucionNormal {
     private double media;
     private double varianza;
     
+    private double [] limSup;
+    private double [] marca;
+    
     public DistribucionNormal(double med, double var)
     {
         media = med;
@@ -25,6 +28,14 @@ public class DistribucionNormal {
 
     public double[] getVecrnd() {
         return vecrnd;
+    }
+
+    public double[] getLimSup() {
+        return limSup;
+    }
+
+    public double[] getMarca() {
+        return marca;
     }
     
     public void generarRND(int cant)
@@ -37,15 +48,15 @@ public class DistribucionNormal {
         
         for (int i = 0; i < vecrnd.length; i++) 
         {
-            do
-            {
+//            do
+//            {
                 rnd1 = Math.random();
                 rnd2 = Math.random();
 
                 z = Math.sqrt(-2*Math.log10(rnd1))*Math.cos(2*(Math.PI)*rnd2);
 
                 x = media+(z*varianza);
-            }while(x < 0);
+//            }while(x < 0);
             vecrnd [i] = x;
         }        
     }
@@ -68,28 +79,46 @@ public class DistribucionNormal {
     public int[] intervalos(int cant)
     {
         int [] intfrec = new int[cant];
+        limSup = new double [cant];
+        marca = new double [cant];
+        
         double [] aux = vecrnd;
+        
         ordenar(aux);
         double maxFrec = aux[aux.length-1];
-        double intervalo1;
-        int intervalo;
-                
-        for (int i = 0; i < aux.length; i++) 
+        double minFrec = aux[0];
+        double amplitud = ((maxFrec-minFrec)/cant);
+        
+        //establezco limites superiores
+        for (int i = 0; i < limSup.length; i++) 
         {
-            if(aux[i] != maxFrec)
+            if(i!=0)
             {
-                intervalo1 = (double) ((aux[i]/(maxFrec/cant)));
-                intervalo = (int) Math.floor(intervalo1);
-                
-                intfrec[intervalo] += 1;
+                limSup [i] = amplitud + limSup[i-1];
+                marca [i] = amplitud + marca[i-1];
             }
             else
-                intfrec[cant-1] += 1;
-        }        
+            {
+                limSup [i] = minFrec+amplitud;
+                marca [i] = (amplitud/2)+minFrec;
+            }
+            //System.out.println(i + " - " + limSup[i] + " - " + marca[i]);            
+        }
+        
+        for (int i = 0; i < aux.length; i++) 
+        {
+            for (int j = 0; j < limSup.length; j++) 
+            {
+                if(aux[i] <= limSup[j])
+                {
+                    intfrec[j] += 1;
+                    break;
+                }
+            }            
+        }
         
         return intfrec;
     }
-    
     public void ordenar(double [] v)
         {
               ordenar( 0, v.length - 1,v );
