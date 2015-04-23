@@ -2,6 +2,8 @@
 package gui;
 
 import distribucionesrandom.DistribucionUniforme;
+import graficos.GraficadorExp;
+import graficos.GraficadorUniforme;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -9,7 +11,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Luciano
  */
 public class FrmUniforme extends javax.swing.JFrame {
-
+    
+    private GraficadorUniforme g;
     private DistribucionUniforme du;
     private double []numDist;
     private DefaultTableModel modelo = new DefaultTableModel();
@@ -22,6 +25,7 @@ public class FrmUniforme extends javax.swing.JFrame {
         modelo.addColumn("FE");
         modelo.addColumn("((FO-FE)^2)/FE");
         du = new DistribucionUniforme();
+        g = new GraficadorUniforme();
     }
     
     public static double round(double value, int places) {
@@ -90,6 +94,11 @@ public class FrmUniforme extends javax.swing.JFrame {
         });
 
         btngenerarGrafico.setText("Generar Grafico");
+        btngenerarGrafico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btngenerarGraficoActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Ingrese Cantidad de Intervalos");
 
@@ -226,6 +235,11 @@ public class FrmUniforme extends javax.swing.JFrame {
         double acum = 0;
         
          int[] vec = new int[intervalos];
+        g.setCantNums(cantNumeros);
+        g.setIntervalos(intervalos);
+        
+       
+         
         
         for (int i = 0; i < numDist.length; i++) 
         {
@@ -248,6 +262,9 @@ public class FrmUniforme extends javax.swing.JFrame {
         }
         inicioIntervalo = 0;
         finalIntervalo = (round(inicioIntervalo, 2) + amplitud);
+        
+        g.setFrecuencias(vec);
+        g.cargarDatos();
        
         
         for (int i = 0; i < vec.length; i++) {
@@ -277,15 +294,17 @@ public class FrmUniforme extends javax.swing.JFrame {
             totales[5] = acum;
             modelo.addRow(totales);
             this.jtable.setModel(modelo);
-//            jTextCantInt.setText("");
-//            jTextCantNums.setText("");
-//            jTextCteAdt.setText("");
-//            jTextField2.setText("");
-//            jTextMod.setText("");
-//            jTextMulti.setText("");
-//            jTextSemilla.setText("");
+            this.jtfIntervalos.setText("");
+            this.jtfcantNum.setText("");
+            this.jtfingreseA.setText("");
+            this.jtfingreseB.setText("");
+            
         
     }//GEN-LAST:event_jbtgeneraNumActionPerformed
+
+    private void btngenerarGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngenerarGraficoActionPerformed
+        g.levantarFrame();
+    }//GEN-LAST:event_btngenerarGraficoActionPerformed
 
     
     public static void main(String args[]) {
