@@ -18,7 +18,7 @@ public class Main {
         
         DistribucionNormal dN = new DistribucionNormal(10.0, 5.0);
         
-        dN.generarRND(500);
+        dN.generarRND(10);
         
         System.out.println(dN.toString());
          System.out.println("ahora ordenado");
@@ -27,6 +27,15 @@ public class Main {
         for (int i = 0; i < vec.length; i++) 
         {
             System.out.println(vec[i]);
+            
+        }
+        
+        int[] intervals = new int[5];
+        intervals=dN.intervalos(5);
+        System.out.println("INTERVALOS:");
+        for (int i = 0; i < intervals.length; i++) {
+            
+            System.out.println(intervals[i]);
             
         }
         

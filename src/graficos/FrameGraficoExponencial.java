@@ -6,7 +6,6 @@
 package graficos;
 
 import org.jfree.chart.ChartPanel;
-
 /**
  *
  * @author Martin

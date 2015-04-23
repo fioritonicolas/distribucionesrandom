@@ -16,6 +16,24 @@ public class DistribucionNormal {
     private double vecrnd[];
     private double media;
     private double varianza;
+    private double cantValores;
+
+    public double getCantValores() {
+        return cantValores;
+    }
+
+    public void setCantValores(double cantValores) {
+        this.cantValores = cantValores;
+    }
+
+    public double getCantIntervalos() {
+        return cantIntervalos;
+    }
+
+    public void setCantIntervalos(double cantIntervalos) {
+        this.cantIntervalos = cantIntervalos;
+    }
+    private double cantIntervalos;
     
     public DistribucionNormal(double med, double var)
     {
@@ -62,9 +80,43 @@ public class DistribucionNormal {
         return sB.toString();
     }
     
-    public int[] intervalos(int cant)
+    public int[] intervalos(int cantIntervalos)
     {
-        int [] intfrec = new int[cant];
+     
+        double[] limiteSup = new double[cantIntervalos];
+        int[] frec = new int[cantIntervalos];
+        
+        double[] aux = vecrnd;
+        ordenar(aux);
+        double maxFrec = vecrnd[vecrnd.length-1];
+        double amplitud = maxFrec/cantIntervalos;
+        double inicioIntervalo = 0;
+        double finIntervalo = inicioIntervalo + amplitud;
+        
+        for (int i = 0; i < limiteSup.length; i++) {        
+           limiteSup[i] = finIntervalo;
+           finIntervalo = finIntervalo+amplitud; 
+        }
+        
+        for (int i = 0; i < vecrnd.length; i++) {
+            
+            
+            
+            for (int j = 0; j < limiteSup.length; j++) {
+                if(vecrnd[i]<=limiteSup[j])
+                {
+                    frec[j]+=1;
+                    break;
+                }            
+            }
+        }
+            
+            return frec;
+        
+        
+        
+        
+        /*  int [] intfrec = new int[cant];
         double [] aux = vecrnd;
         ordenar(aux);
         double maxFrec = aux[aux.length-1];
@@ -85,7 +137,11 @@ public class DistribucionNormal {
         }        
         
         return intfrec;
-    }
+    */
+    
+    
+        }
+    
     
     public void ordenar(double [] v)
         {
