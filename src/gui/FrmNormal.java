@@ -7,6 +7,7 @@ package gui;
 
 import distribucionesrandom.DistribucionNormal;
 import java.text.DecimalFormat;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -210,24 +211,32 @@ public class FrmNormal extends javax.swing.JFrame {
         double media = Double.parseDouble(txt_media.getText());
         double varianza = Double.parseDouble(txt_varianza.getText());
         int cant = Integer.parseInt(txt_cant.getText());
-        DecimalFormat dF = new DecimalFormat("#.##");
-        dN = new DistribucionNormal(media, varianza);
         
-        dN.generarRND(cant);
-        
-        Object [] fila = new Object[2];
-        double [] aux = dN.getVecrnd();
-        
-        for (int i = 0; i < aux.length; i++) 
+        if((media-varianza)> 0)
         {
-            fila[0] = i+1;
-            fila[1] = dF.format(aux[i]);
-            modelo.addRow(fila);
+        
+            DecimalFormat dF = new DecimalFormat("#.##");
+            dN = new DistribucionNormal(media, varianza);
+
+            dN.generarRND(cant);
+
+            Object [] fila = new Object[2];
+            double [] aux = dN.getVecrnd();
+
+            for (int i = 0; i < aux.length; i++) 
+            {
+                fila[0] = i+1;
+                fila[1] = dF.format(aux[i]);
+                modelo.addRow(fila);
+            }
+
+            jTable1.setModel(modelo);
         }
-        
-        jTable1.setModel(modelo);
-        
-        
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Ingrese valores validos");
+            
+        }
     }//GEN-LAST:event_btn_generarNumerosActionPerformed
 
     private void btn_generarIntervalosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generarIntervalosActionPerformed

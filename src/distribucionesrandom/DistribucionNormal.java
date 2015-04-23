@@ -37,12 +37,15 @@ public class DistribucionNormal {
         
         for (int i = 0; i < vecrnd.length; i++) 
         {
-            rnd1 = Math.random();
-            rnd2 = Math.random();
-            
-            z = Math.sqrt(-2*Math.log10(rnd1))*Math.cos(2*(Math.PI)*rnd2);
-            
-            x = media+(z*varianza);
+            do
+            {
+                rnd1 = Math.random();
+                rnd2 = Math.random();
+
+                z = Math.sqrt(-2*Math.log10(rnd1))*Math.cos(2*(Math.PI)*rnd2);
+
+                x = media+(z*varianza);
+            }while(x < 0);
             vecrnd [i] = x;
         }        
     }
