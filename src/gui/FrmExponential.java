@@ -24,6 +24,7 @@ public class FrmExponential extends javax.swing.JFrame {
         modelo.addColumn("RND");
         modelo.addColumn("Numero Intervalo");
         modelo.addColumn("Frecuencia");
+        modelo.addColumn("((fe-fo)^2)/fe");
         g = new GraficadorExp();
         
     }
@@ -31,6 +32,7 @@ public class FrmExponential extends javax.swing.JFrame {
     private DefaultTableModel modelo = new DefaultTableModel();
     private  ExponentialDistribution ed;
     GraficadorExp g;
+    private double[] aux;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -224,7 +226,7 @@ public class FrmExponential extends javax.swing.JFrame {
         
         g.setValues(ed.getValues());
         
-        double aux[] = ed.getValues();
+        aux = ed.getValues();
         Object[] fila = new Object[2];
         
         
@@ -243,8 +245,35 @@ public class FrmExponential extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         int cantIntervalos = Integer.parseInt(jTextIntervalos.getText());
+        int cantValores = Integer.parseInt(jTextCantValores.getText());
         int[] intervalos = ed.intervalos(cantIntervalos);
-        Object[] fila = new Object[4];
+        Object[] fila = new Object[5];
+        double prob;
+        double frec;
+        double vec[] = ed.getValues();
+        double amplitud = (vec[vec.length-1] / cantIntervalos);
+        double inicioIntervalo = 0;
+        double finIntervalo = inicioIntervalo + amplitud;
+        double marcaClase = 0;
+        
+        for (int i = 0; i < intervalos.length; i++) {
+            
+            marcaClase = (inicioIntervalo+finIntervalo)/2;
+            prob = (1-Math.exp(-(ed.generateLamnda())*marcaClase));
+            System.out.println("marcaclase");
+            System.out.println(marcaClase);
+            System.out.println("prob");
+            System.out.println(prob);
+            System.out.println("frec");
+            frec = prob*cantValores;
+            System.out.println(frec);
+            fila[4] = (Math.pow((frec-intervalos[i]),2))/frec;
+            modelo.setValueAt(fila[4], i, 4);
+            inicioIntervalo = finIntervalo;
+            finIntervalo = (inicioIntervalo + amplitud);
+            
+        }
+        
         
         g.setIntervalos(cantIntervalos);
         g.setFrecuencias(intervalos);
@@ -260,6 +289,9 @@ public class FrmExponential extends javax.swing.JFrame {
         
        
         g.cargarDatos();
+        
+        
+        
         jTableResultados.setModel(modelo);
         
         
