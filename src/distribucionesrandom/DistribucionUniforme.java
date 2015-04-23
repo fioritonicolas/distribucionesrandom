@@ -15,6 +15,10 @@ public class DistribucionUniforme
         this.cantNum = cantNum;
     }
 
+    public DistribucionUniforme() {
+        
+    }
+
     public double[] generarDistribucion()
     {
         double num = 0;

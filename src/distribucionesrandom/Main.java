@@ -16,41 +16,36 @@ public class Main {
      */
     public static void main(String[] args) {
         
+        DistribucionNormal dN = new DistribucionNormal(10.0, 5.0);
         
-        ExponentialDistribution ed = new ExponentialDistribution(10,10);
-        ed.generateValuesExponential();
-        System.out.println(ed.toString());
-       int aux[] = ed.intervalos(5);
+        dN.generarRND(500);
         
-        for (int i = 0; i < aux.length; i++) {
-            
-            System.out.println(aux[i]);
+        System.out.println(dN.toString());
+         System.out.println("ahora ordenado");
+        int [] vec = dN.intervalos(10);
+        
+        for (int i = 0; i < vec.length; i++) 
+        {
+            System.out.println(vec[i]);
             
         }
         
-        System.out.println(ed.toString());
-        
-        
-  /*      DistribucionUniforme dU = new DistribucionUniforme(5, 12, 500);
-        double[] generarDistribucion = dU.generarDistribucion();
-        PoissonDistribucion pD = new PoissonDistribucion(500, 5.3);
-        int[] distribucion = pD.generarDist();
-        int[] frecuencias = new int[20];
-        for (int i = 0; i < distribucion.length; i++) {
-            int e = distribucion[i];
-            frecuencias[e]++;
-            //System.out.println(e);
-    */    
-      /*  int[] aux = ed.intervalos(10);
-        
-            for (int j = 0; j < aux.length; j++) {
-                
-                System.out.println(aux[j]);
-                
-           }
-            
-            
-    */}
-    
+//        ExponentialDistribution ed = new ExponentialDistribution(1,10);
+//        ed.generateValuesExponential();
+//        System.out.println(ed.toString());
+//        
+//        DistribucionUniforme dU = new DistribucionUniforme(5, 12, 500);
+//        double[] generarDistribucion = dU.generarDistribucion();
+//        PoissonDistribucion pD = new PoissonDistribucion(500, 5.3);
+//        int[] distribucion = pD.generarDist();
+//        int[] frecuencias = new int[20];
+//        for (int i = 0; i < distribucion.length; i++) {
+//            int e = distribucion[i];
+//            frecuencias[e]++;
+//            //System.out.println(e);
+//        
+//    }
+//    
+}
 }
     
