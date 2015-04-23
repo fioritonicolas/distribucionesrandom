@@ -6,6 +6,7 @@
 package gui;
 
 import distribucionesrandom.DistribucionNormal;
+import graficos.GraficadorNormal;
 import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -24,11 +25,15 @@ public class FrmNormal extends javax.swing.JFrame {
         modelo.addColumn("n");
         modelo.addColumn("RND");
         nomcol = false;
+        
+        g = new GraficadorNormal();
     }
 
     private DefaultTableModel modelo = new DefaultTableModel();
     private DistribucionNormal dN;
     private boolean nomcol;
+    
+    GraficadorNormal g;
     DecimalFormat dF = new DecimalFormat("#.##");
     /**
      * This method is called from within the constructor to initialize the form.
@@ -99,6 +104,11 @@ public class FrmNormal extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         btn_generarGrafico.setText("Generar Grafico");
+        btn_generarGrafico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_generarGraficoActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Numeros Generados");
 
@@ -218,30 +228,25 @@ public class FrmNormal extends javax.swing.JFrame {
         double varianza = Double.parseDouble(txt_varianza.getText());
         int cant = Integer.parseInt(txt_cant.getText());
         
-//        if((media-varianza)> 0)
-        {
+        g.setCantNums(cant);
         
-            dN = new DistribucionNormal(media, varianza);
+        dN = new DistribucionNormal(media, varianza);
+        dN.generarRND(cant);
 
-            dN.generarRND(cant);
-
-            Object [] fila = new Object[2];
-            double [] aux = dN.getVecrnd();
-
-            for (int i = 0; i < aux.length; i++) 
-            {
-                fila[0] = i+1;
-                fila[1] = dF.format(aux[i]);
-                modelo.addRow(fila);
-            }
-
-            jTable1.setModel(modelo);
+        Object [] fila = new Object[2];
+        double [] aux = dN.getVecrnd();
+        
+        g.setValues(aux);
+        
+        for (int i = 0; i < aux.length; i++) 
+        {
+            fila[0] = i+1;
+            fila[1] = dF.format(aux[i]);
+            modelo.addRow(fila);
         }
-//        else
-//        {
-//            JOptionPane.showMessageDialog(this, "Ingrese valores validos");
-//            
-//        }
+
+        jTable1.setModel(modelo);        
+//        
     }//GEN-LAST:event_btn_generarNumerosActionPerformed
 
     private void btn_generarIntervalosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generarIntervalosActionPerformed
@@ -259,6 +264,10 @@ public class FrmNormal extends javax.swing.JFrame {
         int cantIntervalos = Integer.parseInt(txt_intervalos.getText());
         int [] frecInt = dN.intervalos(cantIntervalos);
         double [] marca = dN.getMarca();
+        
+        g.setIntervalos(cantIntervalos);
+        g.setFrecuencias(frecInt);
+        
         Object [] fila = new Object[5];
         
         for (int i = 0; i < frecInt.length; i++) 
@@ -273,9 +282,17 @@ public class FrmNormal extends javax.swing.JFrame {
             
         }
         
+        g.cargarDatos();
+        
         jTable1.setModel(modelo);
         
     }//GEN-LAST:event_btn_generarIntervalosActionPerformed
+
+    private void btn_generarGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generarGraficoActionPerformed
+        // TODO add your handling code here:
+        
+        g.levantarFrame();
+    }//GEN-LAST:event_btn_generarGraficoActionPerformed
 
     /**
      * @param args the command line arguments
