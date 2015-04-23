@@ -8,6 +8,7 @@ package gui;
 import adapter.DataPoisson;
 import adapter.PoissonAdapter;
 import distribucionesrandom.PoissonDistribucion;
+import graficos.GraficadorPoisson;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JTable;
@@ -50,8 +51,6 @@ public class FrmPoisson extends javax.swing.JFrame {
         txtCantNums = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtLam = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        txtIntervalos = new javax.swing.JTextField();
         btnMostrarNumeros = new javax.swing.JButton();
         btnMostrarGrafico = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -78,8 +77,6 @@ public class FrmPoisson extends javax.swing.JFrame {
         jLabel2.setText("Cantidad de Numeros:");
 
         jLabel3.setText("Lambda:");
-
-        jLabel4.setText("Cantidad de Intervalos");
 
         btnMostrarNumeros.setText("Mostrar Numeros");
         btnMostrarNumeros.addActionListener(new java.awt.event.ActionListener() {
@@ -120,13 +117,11 @@ public class FrmPoisson extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addGap(38, 38, 38)
+                                    .addComponent(jLabel3))
+                                .addGap(41, 41, 41)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtCantNums, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                                    .addComponent(txtLam)
-                                    .addComponent(txtIntervalos)))
+                                    .addComponent(txtLam)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(72, 72, 72)
                                 .addComponent(btnMostrarNumeros)
@@ -154,17 +149,13 @@ public class FrmPoisson extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtLam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtIntervalos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnMostrarNumeros)
                     .addComponent(btnMostrarGrafico))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -174,22 +165,12 @@ public class FrmPoisson extends javax.swing.JFrame {
         // TODO add your handling code here:
         int cantNums = Integer.parseInt(txtCantNums.getText());
         double lambda = Double.parseDouble(txtLam.getText());
-        int intervalos = Integer.parseInt(txtIntervalos.getText());
         
         
         pDist.setCantNums(cantNums);
         pDist.setLambda(lambda);
-        pDist.setIntervalos(intervalos);
         poissonNums = pDist.generarDist();
         cargarTabla();
-        
-        
-        ArrayList<DataPoisson> distInt = pDist.getDristAgrupadaEnIntevalos();
-        
-        for (DataPoisson dI : distInt) {
-            System.out.println("INTERVALO: "+dI.getLabel());
-            System.out.println("OCURRENCIAS: "+dI.getOcurrencias());
-        }
         
         isGenarado = true;
         checkState();
@@ -197,7 +178,7 @@ public class FrmPoisson extends javax.swing.JFrame {
 
     private void btnMostrarGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarGraficoActionPerformed
         // TODO add your handling code here:
-        
+        gPoisson.levantarFrame();
     }//GEN-LAST:event_btnMostrarGraficoActionPerformed
 
     /**
@@ -241,13 +222,11 @@ public class FrmPoisson extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable tblNumeros;
     private javax.swing.JTextField txtCantNums;
-    private javax.swing.JTextField txtIntervalos;
     private javax.swing.JTextField txtLam;
     // End of variables declaration//GEN-END:variables
 
@@ -264,21 +243,18 @@ public class FrmPoisson extends javax.swing.JFrame {
         
         int max = 0;
         //ENCUENTRO EL MAYOR PARA SABER LA LONGITUD DEL VECTOR DE OCURRENCIAS
-        for (int i = 0; i < poissonNums.length; i++) {
-           if(i==0)
-           {
-               max = poissonNums[i];
-           }
-           
-           if(poissonNums[i] > max)
-           {
-               max = poissonNums[i];
-           }
-           
-            
-        }
+//        for (int i = 0; i < poissonNums.length; i++) {
+//           if(i==0)
+//           {
+//               max = poissonNums[i];
+//           }
+//           if(poissonNums[i] > max)
+//           {
+//               max = poissonNums[i];
+//           }
+//        }
         //CUENTO LAS OCURRENCIAS
-        int [] ocurrencias = new int[max+1];
+        int [] ocurrencias = new int[pDist.getMayor()+1];
         for (int i = 0; i < poissonNums.length; i++) {
             ocurrencias[poissonNums[i]]++;
         }
@@ -291,9 +267,13 @@ public class FrmPoisson extends javax.swing.JFrame {
             list.add(fila);
         }
         
+        
         PoissonAdapter pA = new PoissonAdapter(list);
+        gPoisson = new GraficadorPoisson(list);
         tblNumeros.setModel(pA);
     }
+    
+    private GraficadorPoisson gPoisson;
     
 
     

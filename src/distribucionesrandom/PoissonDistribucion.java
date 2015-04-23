@@ -109,7 +109,7 @@ public class PoissonDistribucion {
             mayor = k-1;
         }
 
-        return k - 1;
+        return k-1;
     }
 
     public int getCantNums() {
@@ -142,6 +142,14 @@ public class PoissonDistribucion {
 
     public void setIntervalos(int intervalos) {
         this.intervalos = intervalos;
+    }
+
+    public int getMayor() {
+        return mayor;
+    }
+
+    public void setMayor(int mayor) {
+        this.mayor = mayor;
     }
     
     
