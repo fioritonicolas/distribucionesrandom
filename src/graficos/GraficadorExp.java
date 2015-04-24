@@ -190,7 +190,7 @@ public class GraficadorExp {
     }
 
     private void asignacion() {
-        grafica = ChartFactory.createLineChart3D("Grafico",
+        grafica = ChartFactory.createLineChart3D("Distribucion Exponencial",
                 "Intervalos", "Frecuencias", datosH,
                 PlotOrientation.VERTICAL, true, true, true);
         

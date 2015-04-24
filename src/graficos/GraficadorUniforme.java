@@ -80,8 +80,10 @@ public class GraficadorUniforme {
         // intervalos = 20
         // cant numeros = 2000
         // amplitud = 100
-        double amplitud = (cantNums / intervalos);
-//         double amplitud = (double) (mayor) - (menor) / intervalos;
+//        double amplitud = (cantNums / intervalos);
+         double amplitud = (double) ((mayor) - (menor)) / intervalos;
+         System.out.println("amplitudGraficador:");
+         System.out.println(amplitud);
 
 //        double amplitudRounded = round(amplitud, 2);
 
@@ -152,7 +154,7 @@ public class GraficadorUniforme {
     }
 
     private void asignacion() {
-        grafica = ChartFactory.createHistogram("Histograma de Frecuencias",
+        grafica = ChartFactory.createHistogram("Distribucion Uniforme",
                 "Intervalos", "Frecuencias", datosH,
                 PlotOrientation.VERTICAL, true, true, false);
         IntervalMarker marker = new IntervalMarker((double)cantNums / intervalos, (double)cantNums / intervalos);

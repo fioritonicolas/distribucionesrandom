@@ -257,10 +257,13 @@ public class FrmUniforme extends javax.swing.JFrame {
         Object[]fila = new Object[6];
         
         
+       double amplid = (mayorNumero()-menorNumero())/intervalos;
+       g.setMayorMenor(menorNumero(), mayorNumero());
+    
         double amplitud = (double)(cantNumeros/intervalos);
 //        double amplitudNueva = round(amplitud, 2);
         double inicioIntervalo = 0;
-        double finalIntervalo = (round(inicioIntervalo, 2) + amplitud);
+        double finalIntervalo = (round(inicioIntervalo, 2) + amplid);
         float esperada;
         float numerador;
         double acum = 0;
@@ -280,19 +283,19 @@ public class FrmUniforme extends javax.swing.JFrame {
                  {
                     vec[j]++; 
                     inicioIntervalo = 0;
-                    finalIntervalo = (round(inicioIntervalo, 2) + amplitud);
+                    finalIntervalo = (round(inicioIntervalo, 2) + amplid);
                     j=0;
                     break;
                  }               
                  inicioIntervalo = round(finalIntervalo,2);
-                 finalIntervalo = (round(inicioIntervalo,2) +  amplitud);
+                 finalIntervalo = (round(inicioIntervalo,2) +  amplid);
             }
             System.out.println(""+numDist[i]);
            
             
         }
         inicioIntervalo = 0;
-        finalIntervalo = (round(inicioIntervalo, 2) + amplitud);
+        finalIntervalo = (round(inicioIntervalo, 2) + amplid);
         
         g.setFrecuencias(vec);
         g.cargarDatos();
@@ -306,7 +309,7 @@ public class FrmUniforme extends javax.swing.JFrame {
                     fila[2] = round(finalIntervalo,2);
          
                     inicioIntervalo = round(finalIntervalo,2);
-                    finalIntervalo = (round(inicioIntervalo,2) +  amplitud);
+                    finalIntervalo = (round(inicioIntervalo,2) +  amplid);
                     
                     Object value = (Object) vec[i];
                     fila[0] = i+1;

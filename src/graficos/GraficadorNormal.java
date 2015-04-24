@@ -27,10 +27,15 @@ public class GraficadorNormal {
     private int intervalos;
     private int[] frecuencias;
     private double[] values;
+    private double [] marcas;
     
 
     public void setValues(double[] values) {
         this.values = values;
+    }
+
+    public void setMarcas(double[] marcas) {
+        this.marcas = marcas;
     }
     
     
@@ -75,7 +80,7 @@ public class GraficadorNormal {
             marcaClase = (inicioIntervalo + finalIntervalo) / 2;
             System.out.println("MARCA DE CLASE: " + marcaClase);
 
-            String aux = Double.toString(marcaClase);
+            String aux = Double.toString(marcas[i]);
             ds.addValue(frecuencias[i],"x" , aux);
          
            
@@ -176,7 +181,7 @@ public class GraficadorNormal {
     }
 
     private void asignacion() {
-        grafica = ChartFactory.createLineChart3D("Grafico",
+        grafica = ChartFactory.createLineChart3D("Distribucion Normal",
                 "Intervalos", "Frecuencias", datosH,
                 PlotOrientation.VERTICAL, true, true, true);
         

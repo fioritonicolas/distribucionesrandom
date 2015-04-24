@@ -267,6 +267,7 @@ public class FrmNormal extends javax.swing.JFrame {
         
         g.setIntervalos(cantIntervalos);
         g.setFrecuencias(frecInt);
+        g.setMarcas(marca);
         
         Object [] fila = new Object[5];
         
